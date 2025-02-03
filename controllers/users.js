@@ -17,7 +17,7 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
     message: "User Registered Successfully",
   });
 });
-
+//upload userAvatar
 exports.uploadAvatar = catchAsyncErrors(async (req, res, next) => {
   const { imageUrl } = req.body;
 
@@ -54,5 +54,20 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({
     message: "User Logged in Successfully",
     token,
+  });
+});
+
+exports.getCurrentUser = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+
+  if (!user) {
+    return next(new errorHandler("User not found", 404));
+  }
+
+  res.status(200).json({
+    message: `${user.FirstName} Fetched Successfully`,
+    data: {
+      user,
+    },
   });
 });
