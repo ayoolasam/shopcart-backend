@@ -34,7 +34,6 @@ exports.uploadAvatar = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-
 //login user
 exports.loginUser = catchAsyncErrors(async (req, res, next) => {
   const { email, password } = req.body;
@@ -59,7 +58,6 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-
 //get current user
 exports.getCurrentUser = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.user.id);
@@ -76,4 +74,16 @@ exports.getCurrentUser = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
+exports.updateMyDetails = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
 
+  res.status(200).json({
+    message: "User Updated Successfully",
+    data: {
+      user,
+    },
+  });
+});

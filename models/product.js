@@ -20,7 +20,7 @@ const productSchema = new mongoose.Schema({
     type: Number,
     default: 0,
     min: [0, "Rating must be at least 0"],
-    max: [5, "Rating cannot exceed 5"], 
+    max: [5, "Rating cannot exceed 5"],
   },
   quantity: {
     type: Number,
@@ -47,11 +47,11 @@ const productSchema = new mongoose.Schema({
   ],
   reviews: [
     {
-      // user: {
-      //   type: mongoose.Schema.Types.ObjectId,
-      //   ref: "User", 
-      //   required: true,
-      // },
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+      },
 
       rating: {
         type: Number,
@@ -82,4 +82,3 @@ const productSchema = new mongoose.Schema({
 const Product = mongoose.model("Product", productSchema);
 
 module.exports = Product;
-

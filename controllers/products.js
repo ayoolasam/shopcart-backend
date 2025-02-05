@@ -138,6 +138,7 @@ exports.reviewAProduct = catchAsyncErrors(async (req, res, next) => {
   product.reviews.push({
     rating: rating,
     comment: comment,
+    user: req.user._id,
   });
 
   product.numReviews = product.numReviews + 1;
