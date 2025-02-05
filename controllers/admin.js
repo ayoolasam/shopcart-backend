@@ -12,4 +12,25 @@ exports.listUsers = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
+//fetch a user
+exports.fetchUser = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
 
+  if (!user) {
+    return next(new errorHandler("User not found", 404));
+  }
+
+  res.status(200).json({
+    message: "User fetched successfully",
+    data: user,
+  });
+});
+
+//delete a user
+exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findByIdAndDelete(req.params.id);
+
+  res.status(200).json({
+    message: "User deleted successfully",
+  });
+});
