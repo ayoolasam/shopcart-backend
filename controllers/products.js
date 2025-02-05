@@ -5,7 +5,7 @@ const Product = require("../models/product");
 //getProducts
 
 exports.listProducts = catchAsyncErrors(async (req, res, next) => {
-  const products = await Product.find();
+  const products = await Product.find().populate("reviews.user");
 
   res.status(200).json({
     message: "Products Fetched Successfully",
