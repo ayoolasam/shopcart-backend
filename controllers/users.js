@@ -75,15 +75,13 @@ exports.getCurrentUser = catchAsyncErrors(async (req, res, next) => {
 });
 
 exports.updateMyDetails = catchAsyncErrors(async (req, res, next) => {
-  const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+  const user = await User.findByIdAndUpdate(req.user.id, req.body, {
     new: true,
     runValidators: true,
   });
 
   res.status(200).json({
-    message: "User Updated Successfully",
-    data: {
-      user,
-    },
+    message: "User Details Updated Successfully",
+    data: user,
   });
 });
