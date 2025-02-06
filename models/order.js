@@ -38,7 +38,7 @@ const orderSchema = new mongoose.Schema(
         message: "please select :COD or CARD",
       },
     },
-    
+
     paymentInfo: {
       transactionId: { type: String },
       paymentStatus: { type: String, default: "Pending" }, // 'Pending', 'Completed', 'Failed'
@@ -50,12 +50,14 @@ const orderSchema = new mongoose.Schema(
       default: "Processing", // 'Processing', 'Shipped', 'Delivered', 'Cancelled'
       enum: ["Processing", "Shipped", "Delivered", "Cancelled"],
     },
+
     shippingInfo: {
       courier: { type: String }, // e.g., 'DHL', 'FedEx'
-      trackingNumber: { type: String },
+     
       shippedAt: { type: Date },
-      deliveredAt: { type: Date },
     },
+    
+    deliveredAt: { type: Date },
 
     subtotal: {
       type: Number,
