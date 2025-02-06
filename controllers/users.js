@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const errorHandler = require("../utils/errorHandler");
+const Order = require("../models/order");
 
 //     Register a new user
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
@@ -74,6 +75,7 @@ exports.getCurrentUser = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
+//update Current User Details
 exports.updateMyDetails = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findByIdAndUpdate(req.user.id, req.body, {
     new: true,
@@ -83,5 +85,21 @@ exports.updateMyDetails = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({
     message: "User Details Updated Successfully",
     data: user,
+  });
+});
+
+//fetch Current User Orders
+exports.getCurrentUserOrders = catchAsyncErrors(async (req, res, next) => {
+  const orders = await Order.find({ user: req.user.id });
+
+  if (!orders) {
+    return next(new errorHandler("No Orders Found For this User", 404));
+  }
+
+  res.status(200).json({
+    message: `${req.user.FirstName} Orders Fetched Successfully`,
+    data: {
+      orders,
+    },
   });
 });
