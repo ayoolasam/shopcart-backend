@@ -23,14 +23,13 @@ router.use(fileUpload({ useTempFiles: true, tempFileDir: "/tmp/" }));
 //expressuploader gets the files from the request and saves it temporaririly  for easy access form uploading
 // and then saves the metadata and the file location in the req.files as an object not an array like multer does
 
-
 router.post("/file", async (req, res) => {
   try {
     // Check if a file is received
     if (!req.files) {
       return res.status(400).json({ message: "No file uploaded" });
     }
- 
+
     const file = req.files.file;
 
     // Upload the file to Cloudinary

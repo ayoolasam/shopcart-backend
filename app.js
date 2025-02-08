@@ -9,11 +9,18 @@ const userRoutes = require("./routes/user");
 const adminRoutes = require("./routes/admin");
 const orderRoutes = require("./routes/order");
 const uploadRoutes = require("./utils/cloudinary");
+const cors = require("cors");
 dotenv.config({ path: "./config/.env" });
 const databaseConnection = require("./config/database");
 
 databaseConnection();
 app.use(express.json());
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "https://shop--cart.vercel.app"],
+    credentials: true,
+  })
+);
 
 app.use("/api/v1", productRoutes);
 app.use("/api/v1", userRoutes);
