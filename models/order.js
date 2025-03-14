@@ -53,10 +53,10 @@ const orderSchema = new mongoose.Schema(
 
     shippingInfo: {
       courier: { type: String }, // e.g., 'DHL', 'FedEx'
-     
+
       shippedAt: { type: Date },
     },
-    
+
     deliveredAt: { type: Date },
 
     subtotal: {

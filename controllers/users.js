@@ -51,11 +51,17 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
     return next(new errorHandler("Invalid Credentials", 404));
   }
 
+  const userDetails = await User.findOne({ email });
+
   const token = user.getJwtToken();
 
   res.status(200).json({
     message: "User Logged in Successfully",
-    token,
+
+    data: {
+      userDetails,
+      token,
+    },
   });
 });
 
