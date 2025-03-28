@@ -107,13 +107,13 @@ exports.getCurrentUserOrders = catchAsyncErrors(async (req, res, next) => {
     message: `${req.user.FirstName} Orders Fetched Successfully`,
     data: {
       orders,
+      length: orders.length,
     },
   });
 });
 
 //log out
 exports.logOut = catchAsyncErrors(async (req, res, next) => {
-  
   await User.findByIdAndUpdate(req.user.id, { $inc: { tokenVersion: 1 } });
 
   res.status(200).json({

@@ -15,15 +15,16 @@ const orderSchema = new mongoose.Schema(
           required: true,
         },
         name: { type: String, required: true },
-        quantity: { type: Number, required: true },
+        numOfProducts: { type: Number, required: true },
         price: { type: Number, required: true },
         total: { type: Number, required: true },
+        image: { type: String, required: true },
       },
     ],
     shippingAddress: {
       fullName: { type: String, required: true },
-      addressLine1: { type: String, required: true },
-      addressLine2: { type: String },
+      address: { type: String, required: true },
+
       city: { type: String, required: true },
       state: { type: String, required: true },
       postalCode: { type: String, required: true },
@@ -56,6 +57,15 @@ const orderSchema = new mongoose.Schema(
 
       shippedAt: { type: Date },
     },
+    deliveryMethod:{
+      type: String,
+      required: [true, "please select a delivery method"],
+      enum: {
+        values: ["Delivery", "PickUp"],
+        message: "please select :Pick Up or Delivery",
+      },
+    },
+    
 
     deliveredAt: { type: Date },
 
