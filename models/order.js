@@ -39,9 +39,12 @@ const orderSchema = new mongoose.Schema(
         message: "please select :COD or CARD",
       },
     },
+    reference: {
+      type: String,
+    },
 
     paymentInfo: {
-      transactionId: { type: String },
+    
       paymentStatus: { type: String, default: "Pending" }, // 'Pending', 'Completed', 'Failed'
       paidAt: { type: Date },
     },
@@ -57,7 +60,7 @@ const orderSchema = new mongoose.Schema(
 
       shippedAt: { type: Date },
     },
-    deliveryMethod:{
+    deliveryMethod: {
       type: String,
       required: [true, "please select a delivery method"],
       enum: {
@@ -65,7 +68,6 @@ const orderSchema = new mongoose.Schema(
         message: "please select :Pick Up or Delivery",
       },
     },
-    
 
     deliveredAt: { type: Date },
 

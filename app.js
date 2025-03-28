@@ -7,6 +7,7 @@ const error = require("./middleware/error");
 const productRoutes = require("./routes/products");
 const userRoutes = require("./routes/user");
 const adminRoutes = require("./routes/admin");
+const paymentRoutes = require("./routes/payment");
 const orderRoutes = require("./routes/order");
 const uploadRoutes = require("./utils/cloudinary");
 const cors = require("cors");
@@ -26,6 +27,7 @@ app.use("/api/v1", productRoutes);
 app.use("/api/v1", userRoutes);
 app.use("/api/v1/admin", adminRoutes);
 app.use("/api/v1/upload", uploadRoutes);
+app.use("/api/v1", paymentRoutes);
 app.use("/api/v1", orderRoutes);
 
 const PORT = process.env.PORT;

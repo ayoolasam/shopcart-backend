@@ -1,6 +1,7 @@
 const Order = require("../models/order");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const errorHandler = require("../utils/errorHandler");
+const { initializePayment } = require("../utils/payment");
 
 //create an Order
 exports.order = catchAsyncErrors(async (req, res, next) => {
@@ -15,9 +16,17 @@ exports.order = catchAsyncErrors(async (req, res, next) => {
     deliveryMethod,
   } = req.body;
 
+  let payment = null;
 
-
-
+  if (req.body.paymentMethod === "CARD") {
+    payment = await initializePayment(req.user.email, req.body.totalAmount);
+console.log(payment)
+    if (!payment) {
+      return next(
+        new errorHandler("Payment Not Initialized Successfully", 400)
+      );
+    }
+  }
 
   const order = await Order.create({
     user: req.user.id,
@@ -29,7 +38,7 @@ exports.order = catchAsyncErrors(async (req, res, next) => {
     tax,
     totalAmount,
     deliveryMethod,
-    
+    reference: payment ? payment.data.reference : null,
   });
 
   if (!order) {
@@ -38,6 +47,9 @@ exports.order = catchAsyncErrors(async (req, res, next) => {
 
   res.status(200).json({
     message: "order Created successfully",
+    data: {
+      payment,
+    },
   });
 });
 
