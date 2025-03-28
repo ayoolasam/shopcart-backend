@@ -2,7 +2,6 @@ const Order = require("../models/order");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const errorHandler = require("../utils/errorHandler");
 
-
 //create an Order
 exports.order = catchAsyncErrors(async (req, res, next) => {
   const {
@@ -65,5 +64,3 @@ exports.fetchOrder = catchAsyncErrors(async (req, res, next) => {
     },
   });
 });
-
-

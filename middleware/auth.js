@@ -16,7 +16,14 @@ exports.isAuthenticatedUser = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = await User.findById(decoded.id);
+
+    const user = await User.findById(decoded.id);
+
+    if (!user || user.tokenVersion !== decoded.tokenVersion) {
+      return next(new errorHandler("Token Expired", 401));
+    }
+
+    req.user = user;
 
     next();
   } catch (error) {

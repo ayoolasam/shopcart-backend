@@ -2,22 +2,23 @@ const User = require("../models/user");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const errorHandler = require("../utils/errorHandler");
 const Order = require("../models/order");
+const blacklist =
+  //     Register a new user
+  (exports.registerUser = catchAsyncErrors(async (req, res, next) => {
+    const { FirstName, LastName, password, email } = req.body;
 
-//     Register a new user
-exports.registerUser = catchAsyncErrors(async (req, res, next) => {
-  const { FirstName, LastName, password, email } = req.body;
+    const user = await User.create({
+      FirstName,
+      LastName,
+      password,
+      email,
+    });
 
-  const user = await User.create({
-    FirstName,
-    LastName,
-    password,
-    email,
-  });
+    res.status(201).json({
+      message: "User Registered Successfully",
+    });
+  }));
 
-  res.status(201).json({
-    message: "User Registered Successfully",
-  });
-});
 //upload userAvatar
 exports.uploadAvatar = catchAsyncErrors(async (req, res, next) => {
   const { imageUrl } = req.body;
@@ -107,5 +108,15 @@ exports.getCurrentUserOrders = catchAsyncErrors(async (req, res, next) => {
     data: {
       orders,
     },
+  });
+});
+
+//log out
+exports.logOut = catchAsyncErrors(async (req, res, next) => {
+  
+  await User.findByIdAndUpdate(req.user.id, { $inc: { tokenVersion: 1 } });
+
+  res.status(200).json({
+    message: `User Logged Out Successfully`,
   });
 });

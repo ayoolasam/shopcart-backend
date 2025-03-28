@@ -7,14 +7,16 @@ const {
   getCurrentUser,
   getCurrentUserOrders,
   updateMyDetails,
+  logOut,
 } = require("../controllers/users");
 const { isAuthenticatedUser } = require("../middleware/auth");
 
 router.post("/register", registerUser);
 router.post("/user/upload/Avatar", isAuthenticatedUser, uploadAvatar);
 router.post("/login", loginUser);
+router.get("/logout", isAuthenticatedUser, logOut);
 router.get("/user", isAuthenticatedUser, getCurrentUser);
 router.put("/user/update", isAuthenticatedUser, updateMyDetails);
-router.get("/user/orders", isAuthenticatedUser,getCurrentUserOrders );
+router.get("/user/orders", isAuthenticatedUser, getCurrentUserOrders);
 
 module.exports = router;
