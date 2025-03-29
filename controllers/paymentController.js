@@ -4,7 +4,7 @@ const Order = require("../models/order");
 
 exports.webHook = catchAsyncErrors(async (req, res, next) => {
 const event = req.body;
-console.log(event);
+
 
 if(event.event === "charge.success"){
   const reference = event.data.reference;
