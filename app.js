@@ -13,6 +13,10 @@ const uploadRoutes = require("./utils/cloudinary");
 const cors = require("cors");
 dotenv.config({ path: "./config/.env" });
 const databaseConnection = require("./config/database");
+const logger = require("./utils/logger");
+const morgan = require("morgan");
+const fs = require("fs");
+const path = require("path");
 
 databaseConnection();
 app.use(express.json());
@@ -22,6 +26,14 @@ app.use(
     credentials: true,
   })
 );
+
+// Create a write stream (in append mode) for logging requests
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'logs/access.log'), { flags: 'a' });
+
+
+app.use(morgan('combined', { stream: accessLogStream }));
+app.use(morgan('dev')); 
+
 
 app.use("/api/v1", productRoutes);
 app.use("/api/v1", userRoutes);
