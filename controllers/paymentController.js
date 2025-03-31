@@ -26,6 +26,8 @@ exports.webHook = catchAsyncErrors(async (req, res, next) => {
       orderNumber: order.id,
       userFirst: user.FirstName,
       userSecondName: user.LastName,
+      totalAmount:order.totalAmount,
+      products:order.products
     });
 
     try {

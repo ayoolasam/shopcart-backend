@@ -1,4 +1,4 @@
-exports.createEmailTemplate = ({ userFirst, userSecondName, orderNumber }) => `
+exports.createEmailTemplate = ({ userFirst, userSecondName, orderNumber,totalAmount ,products}) => `
 
 <!DOCTYPE html>
 <html>
@@ -78,8 +78,11 @@ exports.createEmailTemplate = ({ userFirst, userSecondName, orderNumber }) => `
             <p>We are thrilled to have you as our customer! Here are your order details:</p>
             <div class="order-details">
                 <p><strong>Order Number:</strong> ${orderNumber}</p>
-                <p><strong>Items:</strong> [Product Name] x [Quantity]</p>
-                <p><strong>Total:</strong> ₦[Total Price]</p>
+               <p><strong>Items:</strong></p>
+                <ul>
+                    ${products.map(product => `<li>${product.name} x ${product.quantity} - ₦${product.price}</li>`).join('')}
+                </ul>
+                <p><strong>Total:</strong> ₦${totalAmount}</p>
             </div>
           
             <p>If you have any questions, feel free to <a href="#" style="color: #28a745; text-decoration: none; font-weight: bold;">contact us</a>.</p>
