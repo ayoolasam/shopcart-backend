@@ -2,10 +2,20 @@ const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const errorHandler = require("../utils/errorHandler");
 const Product = require("../models/product");
 
+const APIFilters = require("../utils/apiFilters");
+
 //getProducts
 
 exports.listProducts = catchAsyncErrors(async (req, res, next) => {
-  const products = await Product.find().populate("reviews.user");
+  console.log(req.query)
+  const apiFilters = new APIFilters(Product.find(), req.query)
+    .filter()
+    .sort()
+    .limitFields()
+    .pagination()
+    .searchByQuery();
+
+  const products = await apiFilters.query;
 
   res.status(200).json({
     message: "Products Fetched Successfully",
