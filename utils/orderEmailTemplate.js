@@ -81,7 +81,7 @@ exports.createEmailTemplate = ({ userFirst, userSecondName, orderNumber }) => `
                 <p><strong>Items:</strong> [Product Name] x [Quantity]</p>
                 <p><strong>Total:</strong> ₦[Total Price]</p>
             </div>
-            // <a href="[Tracking Link]" class="cta-button">Track Your Order</a>
+          
             <p>If you have any questions, feel free to <a href="#" style="color: #28a745; text-decoration: none; font-weight: bold;">contact us</a>.</p>
         </div>
         <div class="footer">
