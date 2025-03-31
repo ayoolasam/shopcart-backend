@@ -44,6 +44,6 @@ exports.webHook = catchAsyncErrors(async (req, res, next) => {
     }
 
   
-    res.status(200);
+    res.status(200).send("Ok")
   }
 });
