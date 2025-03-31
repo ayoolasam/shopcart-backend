@@ -80,7 +80,7 @@ exports.createEmailTemplate = ({ userFirst, userSecondName, orderNumber,totalAmo
                 <p><strong>Order Number:</strong> ${orderNumber}</p>
                <p><strong>Items:</strong></p>
                 <ul>
-                    ${products.map(product => `<li>${product.name} x ${product.quantity} - ₦${product.price}</li>`).join('')}
+                    ${products.map(product => `<li>${product.name} x ${product.numOfProducts} - ₦${product.price}</li>`).join('')}
                 </ul>
                 <p><strong>Total:</strong> ₦${totalAmount}</p>
             </div>
