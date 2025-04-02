@@ -87,6 +87,7 @@ exports.createEmailTemplate = ({ userFirst, userSecondName, orderNumber,totalAmo
           
             <p>If you have any questions, feel free to <a href="#" style="color: #28a745; text-decoration: none; font-weight: bold;">contact us</a>.</p>
         </div>
+        
         <div class="footer">
             <p>&copy; 2025 ShopCart. All Rights Reserved.</p>
         </div>

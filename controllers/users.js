@@ -2,6 +2,8 @@ const User = require("../models/user");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const errorHandler = require("../utils/errorHandler");
 const Order = require("../models/order");
+const { createEmailTemplate } = require("../utils/registrationEmail");
+const sendEmail = require("../utils/sendEmail");
 const blacklist =
   //     Register a new user
   (exports.registerUser = catchAsyncErrors(async (req, res, next) => {
@@ -13,6 +15,26 @@ const blacklist =
       password,
       email,
     });
+
+    if (user) {
+      const message = createEmailTemplate({
+        userfirstName: user.FirstName,
+        userlastName: user.LastName,
+      });
+
+      try {
+        await sendEmail({
+          email: user.email,
+          subject: "ShopCart",
+          message,
+        });
+      } catch (e) {
+        res.status(500).json({
+          message: "Server Error",
+          error: e.message,
+        });
+      }
+    }
 
     res.status(201).json({
       message: "User Registered Successfully",
