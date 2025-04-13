@@ -146,7 +146,9 @@ exports.reviewAProduct = catchAsyncErrors(async (req, res, next) => {
     new errorHandler("Product not Found", 404);
   }
 
-  const user = await Product.findOne({ user: req.user._id });
+  const user = product.reviews.find(
+    (review) => review.user._id.toString() === req.user.id.toString()
+  );
   if (user) {
     return next(
       new errorHandler("You have already reviewed this product", 400)
