@@ -7,7 +7,6 @@ const APIFilters = require("../utils/apiFilters");
 //getProducts
 
 exports.listProducts = catchAsyncErrors(async (req, res, next) => {
-  console.log(req.query)
   const apiFilters = new APIFilters(Product.find(), req.query)
     .filter()
     .sort()
@@ -53,7 +52,9 @@ exports.AddProduct = catchAsyncErrors(async (req, res, next) => {
 //fetchProduct
 
 exports.fetchProduct = catchAsyncErrors(async (req, res, next) => {
-  const product = await Product.findById(req.params.id);
+  const product = await Product.findById(req.params.id).populate(
+    "reviews.user"
+  );
 
   res.status(200).json({
     message: "Product Fetched Successfully",
@@ -143,6 +144,13 @@ exports.reviewAProduct = catchAsyncErrors(async (req, res, next) => {
 
   if (!product) {
     new errorHandler("Product not Found", 404);
+  }
+
+  const user = await Product.findOne({ user: req.user._id });
+  if (user) {
+    return next(
+      new errorHandler("You have already reviewed this product", 400)
+    );
   }
 
   product.reviews.push({

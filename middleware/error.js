@@ -1,4 +1,4 @@
-const ErrorHandler = require('../utils/errorHandler')
+const ErrorHandler = require("../utils/errorHandler");
 
 module.exports = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
@@ -18,7 +18,7 @@ module.exports = (err, req, res, next) => {
     error.message = err.message;
     //handling mongoose duplicate error
     if (err.code === 11000) {
-      const message = `Duplicate ${object.keys(err.keyValue)} entered.`;
+      const message = `Duplicate ${Object.keys(err.keyValue)} entered.`;
       error = new ErrorHandler(message, 400);
     }
     //wrong mongoose object ID error
@@ -33,16 +33,16 @@ module.exports = (err, req, res, next) => {
       error = new ErrorHandler(message, 404);
     }
     //handling wromg jwt token error
-if(err.name === "JsonWebTokenError"){
-const message = "JSON web token invalid. Try again"
-error = new ErrorHandler(message,500)
-}
+    if (err.name === "JsonWebTokenError") {
+      const message = "JSON web token invalid. Try again";
+      error = new ErrorHandler(message, 500);
+    }
 
-//handling expired jwt token error
-if(err.name === "TokenExpiredError"){
-  const message = "JSON web token expired. Try again"
-  error = new ErrorHandler(message,500)
-}
+    //handling expired jwt token error
+    if (err.name === "TokenExpiredError") {
+      const message = "JSON web token expired. Try again";
+      error = new ErrorHandler(message, 500);
+    }
 
     res.status(error.statusCode).json({
       success: false,
