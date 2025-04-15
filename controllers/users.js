@@ -155,4 +155,7 @@ exports.changePassword = catchAsyncErrors(async (req, res, next) => {
   }
   user.password = req.body.newPassword;
   await user.save();
+  res.status(200).json({
+    message: "Password Changed Successfully",
+  });
 })
