@@ -8,6 +8,7 @@ const {
   getCurrentUserOrders,
   updateMyDetails,
   logOut,
+  changePassword
 } = require("../controllers/users");
 const { isAuthenticatedUser } = require("../middleware/auth");
 
@@ -18,5 +19,5 @@ router.get("/logout", isAuthenticatedUser, logOut);
 router.get("/user", isAuthenticatedUser, getCurrentUser);
 router.put("/user/update", isAuthenticatedUser, updateMyDetails);
 router.get("/user/orders", isAuthenticatedUser, getCurrentUserOrders);
-
+router.put("/user/password",isAuthenticatedUser, changePassword);
 module.exports = router;

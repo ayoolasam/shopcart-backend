@@ -4,7 +4,7 @@ const errorHandler = require("../utils/errorHandler");
 const Order = require("../models/order");
 const { createEmailTemplate } = require("../utils/registrationEmail");
 const sendEmail = require("../utils/sendEmail");
-const blacklist =
+
   //     Register a new user
   (exports.registerUser = catchAsyncErrors(async (req, res, next) => {
     const { FirstName, LastName, password, email } = req.body;
@@ -142,3 +142,17 @@ exports.logOut = catchAsyncErrors(async (req, res, next) => {
     message: `User Logged Out Successfully`,
   });
 });
+
+//changePasword
+exports.changePassword = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.user.id).select("+password");
+  if (!user) {
+    return next(new errorHandler("User not found", 404));
+  }
+  const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
+  if (!isPasswordMatched) {
+    return next(new errorHandler("Old Password is incorrect", 400));
+  }
+  user.password = req.body.newPassword;
+  await user.save();
+})
